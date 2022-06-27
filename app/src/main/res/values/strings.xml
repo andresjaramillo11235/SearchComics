@@ -18,7 +18,7 @@
     <string name="content_description_thumbnail">Thumbnail Comic</string>
     <string name="comic_description_empty">This comic has no description.</string>
     <string name="comic_published_empty">This comic has no publication date.</string>
-    <string name="hero_name">Hero Name</string>
+    <string name="hero_name">Hero\'s Name</string>
     <string name="search_comics">Search Comics</string>
 
 </resources>
