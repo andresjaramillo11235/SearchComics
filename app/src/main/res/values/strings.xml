@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">Comics Marvel</string>
+    <string name="app_name">Marvel Comics</string>
     <string name="app_title_listing_comics">Hero Comics</string>
     <string name="app_title_detail_comic">Comic Detail</string>
 
-    <string name="fail_hero_name_not_avalaible">"Sorry the hero is not available, please try again."</string>
+    <string name="fail_hero_name_not_avalaible">"Sorry the hero is not available, please check if it is spelled correctly or try again with another hero."</string>
     <string name="fail_empty_hero_name">"Please enter the hero name of your choice."</string>
     <string name="btn_search_comics">Search Comics</string>
+    <string name="internet_connection_failure">"The service is not available, check your internet connection and try again."</string>
 
     <string name="itemSearch_id">New Search</string>
     <string name="itemHelp_id">Help</string>
@@ -17,5 +18,7 @@
     <string name="content_description_thumbnail">Thumbnail Comic</string>
     <string name="comic_description_empty">This comic has no description.</string>
     <string name="comic_published_empty">This comic has no publication date.</string>
+    <string name="hero_name">Hero Name</string>
+    <string name="search_comics">Search Comics</string>
 
 </resources>

@@ -1,5 +1,3 @@
-
-
 package com.andresjaramillo.searchcomics;
 
 import android.content.Intent;
@@ -16,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.andresjaramillo.searchcomics.model.Service;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -25,7 +25,8 @@ import org.json.JSONObject;
 import java.util.Iterator;
 
 /**
- * class that performs the search for the hero
+ * Class that performs the search for the hero
+ *
  * @author Andres Jaramillo.
  * @version 0.1
  * 2022/06/26
@@ -50,6 +51,10 @@ public class SearchActivity extends AppCompatActivity {
         controlMessage();
     }
 
+    /**
+     * @param jsonObject data object returned from the API
+     * @return boolean True or false depending on the result of the validation
+     */
     private boolean validateData(JSONObject jsonObject) {
 
         boolean ok = Boolean.FALSE;
@@ -79,36 +84,49 @@ public class SearchActivity extends AppCompatActivity {
 
         Service service = new Service();
         String url = service.requestHeroData(heroName);
-        Log.d("ANJARAMI", url);
 
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                response -> {
-                    Log.d("ANJARAMI", response.toString());
+        JsonObjectRequest jsonObjectRequest;
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("ANJARAMI", response.toString());
 
-                    try {
+                        try {
 
-                        JSONObject dataResponse = response.getJSONObject("data");
+                            JSONObject dataResponse = response.getJSONObject("data");
 
-                        if (validateData(dataResponse)) {
-                            Intent intent = new Intent(SearchActivity.this, MainActivity.class);
-                            intent.putExtra("jasonObject", dataResponse.toString());
-                            startActivity(intent);
-                        } else {
-                            tvMsg.setText(R.string.fail_hero_name_not_avalaible);
+                            if (SearchActivity.this.validateData(dataResponse)) {
+                                Intent intent = new Intent(SearchActivity.this, MainActivity.class);
+                                intent.putExtra("jasonObject", dataResponse.toString());
+                                SearchActivity.this.startActivity(intent);
+                            } else {
+                                tvMsg.setText(R.string.fail_hero_name_not_avalaible);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e("ANJARAMI", e.toString());
+                            tvMsg.setText(R.string.internet_connection_failure);
                         }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
                 },
-                error -> Log.d("ANJARAMI", "Error Respect en JSON: " + error.getMessage())
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("ANJARAMI", error.getMessage());
+                        tvMsg.setText(R.string.internet_connection_failure);
+                    }
+                }
         );
 
         requestQueue.add(jsonObjectRequest);
     }
 
-    private void controlButton(){
+    private void controlButton() {
         btnSearch.setOnClickListener(view -> {
 
             String heroName = etSearch.getText().toString().trim();
@@ -121,6 +139,9 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Eliminate error feedback message.
+     */
     private void controlMessage() {
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override

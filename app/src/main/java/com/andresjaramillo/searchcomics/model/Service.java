@@ -2,6 +2,13 @@ package com.andresjaramillo.searchcomics.model;
 
 import android.util.Log;
 
+/**
+ * Service Key Manager
+ *
+ * @author Andres Jaramillo
+ * @version 0.1
+ */
+
 public class Service {
 
     private String publicAPIKey = "1d859c890288d0592d03a24460c30cfd";

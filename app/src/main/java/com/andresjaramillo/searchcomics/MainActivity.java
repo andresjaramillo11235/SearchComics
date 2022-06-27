@@ -26,7 +26,6 @@ import java.util.ArrayList;
  * @version 0.1
  * 2022/06/26
  */
-
 public class MainActivity extends AppCompatActivity {
 
     ArrayList<ListComicsVo> dataList;

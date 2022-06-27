@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.andresjaramillo.searchcomics.model.Service;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
@@ -98,7 +101,13 @@ public class DetailActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> putDetail(response),
-                error -> Log.d("ANJARAMI", "Error Respect en JSON: " + error.getMessage())
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(DetailActivity.this, getString(R.string.internet_connection_failure), Toast.LENGTH_SHORT).show();
+                        Log.e("ANJARAMI", error.getMessage());
+                    }
+                }
         );
         requestQueue.add(jsonObjectRequest);
     }

@@ -10,6 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+/**
+ * Recycler adapter
+ * @author Andres Jaramillo
+ * @version 0.1
+ */
+
 public class AdapterList extends RecyclerView.Adapter<AdapterList.ViewHolderList> implements View.OnClickListener {
 
     ArrayList<ListComicsVo> dataList;
